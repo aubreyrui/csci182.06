@@ -1,12 +1,11 @@
 import numpy as np
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
-from collections import Counter
 
 class TextProcessor:
     def __init__(self, num_dim):
         self.vocabulary = []
-        self.vocab_size = 0
+        self.vocab_size = len(self.vocabulary)
         self.num_dim = ''
         self.column_poem = num_dim["Poem"].tolist()
         self.column_senti = num_dim["Label"].tolist()
@@ -32,6 +31,9 @@ class TextProcessor:
         unique_tokens = sorted(list(set(all_tokens)))
         print("Unique tokens:")
         print(unique_tokens)
+        print("Number of unique tokens")
+        print(len(unique_tokens))
+        self.vocabulary = unique_tokens
 
         output_data = []
 
@@ -59,8 +61,10 @@ class TextProcessor:
         # initializing the columns into arrays
 
         #TF-IDF Vectorization
-        vector = TfidfVectorizer()
+        vector = TfidfVectorizer(vocabulary=self.vocabulary)
         tfidf_matrix = vector.fit_transform(self.column_poem)
+        tfidf_names = vector.get_feature_names_out()
+        print(tfidf_names) # to check
         tfidf_array = tfidf_matrix.toarray() # matrix to array
 
         converted_senti = []
@@ -77,7 +81,7 @@ class TextProcessor:
         # Create DataFrame for output
         num_tfidf = tfidf_array.shape[1]
         print(num_tfidf)
-        num_tfidf_name = [f"tfidf_{i}" for i in range(num_tfidf)]
+        num_tfidf_name = [f"{tfidf_names[i]}" for i in range(len(tfidf_names))]
         print(num_tfidf_name)
 
         output_df = pd.DataFrame(tfidf_array, columns=num_tfidf_name)
@@ -96,8 +100,8 @@ try:
     load_data = pd.read_csv(fname)
     print(load_data)
     p = TextProcessor(load_data)
-    p.tfidf()
     p.tokens()
+    p.tfidf()
 
 except FileNotFoundError:
     print("File not found!")
