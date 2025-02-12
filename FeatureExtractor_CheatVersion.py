@@ -36,16 +36,23 @@ class TextProcessor:
         output_data = []
 
         for j, tokens in enumerate(tokenized_poems):
-            # using the encode Function to create Sentence Feature for each poem
-            word_to_index = {word: i for i, word in enumerate(tokens)}
-            features = np.zeros(len(unique_tokens))
-            for token in tokens:
-                if token in word_to_index:
-                     features[word_to_index[token]] += 1
+            # counts occurence of a token in a poem
+            token_counter = self.Counter(tokens) # this is more on advanced version honestly
+            row = [token_counter[tokens] for tokens in unique_tokens]
 
-            output_data.append(features)
+            # For adding the Happy, Sad
+            if self.column_senti[j] == 0:
+                row.extend([0, 1])
+            elif self.column_senti[j] == 1:
+                row.extend([1, 0])
+            else:
+                print(f"Unknown sentiment: '{self.column_senti[j]}. Outputing as [0,0]")
+                row.extend([0,0])
+
+            output_data.append(row)
+        
         output_csv = "output_tokens.csv"
-        column_names = unique_tokens
+        column_names = unique_tokens + ['happy', 'sad']
         output_df = pd.DataFrame(output_data, columns=column_names)
 
         try:
