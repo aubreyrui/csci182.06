@@ -58,10 +58,8 @@ class TextProcessor:
 
     
     def tfidf(self):
-        # initializing the columns into arrays
-
         #TF-IDF Vectorization
-        vector = TfidfVectorizer(vocabulary=self.vocabulary)
+        vector = TfidfVectorizer(vocabulary=self.vocabulary)  # use the vocabulary from the tokens generated
         tfidf_matrix = vector.fit_transform(self.column_poem)
         tfidf_names = vector.get_feature_names_out()
         print(tfidf_names) # to check

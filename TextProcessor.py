@@ -21,22 +21,17 @@ class TextProcessor:
         return self.vocabulary
     
     def encode(self, tokens):
-        self.word_to_index = {word: i for i, word in enumerate(tokens)}
-        # sentence feature
-        features = np.zeros(self.vocab_size)
-        for token in tokens:
-                if token in self.word_to_index:
-                     features[self.word_to_index[token]] += 1
+        features = np.zeros(len(tokens))
+        for i, token in enumerate(tokens):
+                if token in self.vocabulary:
+                     features[i] += self.vocabulary.index(token)
 
         return features
 
     def decode(self, indices):
         tokens = []
-        index_to_word = {i: word for word, i in self.word_to_index.items()} 
-        index = np.nonzero(indices)[0]  # Get indices of non-zero elements
-        for i in index:
-            tokens.append(index_to_word[i])  # Map index back to word
-
+        for i in range(self.vocab_size):
+            tokens.append(self.vocabulary[i])
         return tokens
 
 

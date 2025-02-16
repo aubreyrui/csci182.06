@@ -1,0 +1,22 @@
+Create a Python class called TextProcessor (see attached file Download see attached file)
+
+Implement the constructor (__init__) and create_vocabulary method such that it does the following:
+- dir_text is a directory containing several .txt files. Read each text file’s content and append it to one long string and store it to a variable text
+
+Replace the following symbols with the following words with spaces in the beginning:
+    . → <period>
+    ! → <exclamation>
+
+Implement create_vocabulary which accepts the processed text
+
+Inside the create_vocabulary method, split the large string according to spaces
+    - Make sure all symbols are lowercase
+    - Initialize self.vocabulary to be a set of unique symbols including <period> and <exclamation>
+    - Implement the encode(self, tokens) method such that given an array of tokens (words in this case), it returns an array of indices.
+    - Implement the decode(self, indices) method such that given an array of indices (integers in this case), it returns an array of tokens.
+    - Implement get_embedding_features
+
+Given an array of tokens, create a PyTorch embedding object where embedding_dim should be equal to num_dim
+    - Return a single feature vector (array of values) representing this embedding with positional information by flattening the 2d shape into a single dimensional array.
+
+Write code to test each implementation of the methods in TextProcessor
