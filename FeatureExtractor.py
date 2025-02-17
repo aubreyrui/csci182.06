@@ -38,17 +38,15 @@ class TextProcessor:
         output_data = []
 
         for j, tokens in enumerate(tokenized_poems):
-            # using the encode Function to create Sentence Feature for each poem
-            word_to_index = {word: i for i, word in enumerate(tokens)}
-            features = np.zeros(len(unique_tokens))
-            for token in tokens:
-                if token in word_to_index:
-                     features[word_to_index[token]] += 1
+            # using the encode Function to create for each poem
+            features = np.zeros(len(tokens))
+            for i, token in enumerate(tokens):
+                if token in self.vocabulary:
+                     features[i] += self.vocabulary.index(token)
 
             output_data.append(features)
         output_csv = "output_tokens.csv"
-        column_names = unique_tokens
-        output_df = pd.DataFrame(output_data, columns=column_names)
+        output_df = pd.DataFrame(output_data)
 
         try:
             output_df.to_csv(output_csv, index=False)

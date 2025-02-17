@@ -12,11 +12,7 @@ class TextProcessor:
         self.word_to_index = []
 
     def create_vocabulary(self, text):
-        preprocessed = text.lower()
-        preprocessed = preprocessed.replace('.', ' .')
-        preprocessed = preprocessed.replace('!', ' !')
-        split_words = preprocessed.split()
-        self.vocabulary = sorted(list(set(split_words)))
+        self.vocabulary = sorted(list(set(text)))
         self.vocab_size = len(self.vocabulary)
         return self.vocabulary
     
@@ -30,8 +26,8 @@ class TextProcessor:
 
     def decode(self, indices):
         tokens = []
-        for i in range(self.vocab_size):
-            tokens.append(self.vocabulary[i])
+        for i in indices:
+                tokens.append(self.vocabulary[int(i)])
         return tokens
 
 
@@ -49,15 +45,28 @@ class TextProcessor:
                     self.appendtext += ' '
 
         return self.appendtext
+    
+    def preprocessed(self,text):
+        preprocessed = text.lower()
+        preprocessed = preprocessed.replace('.', ' <period>')
+        preprocessed = preprocessed.replace('!', ' <exclamation>')
+        split_words = preprocessed.split()
+
+        return split_words
         
 e_size = int(input("Embedding size: "))
 dir = input("Input directory: ")
 os.chdir(dir)
 tp = TextProcessor(dir, e_size)
 text = tp.readText()
-vocab = tp.create_vocabulary(text)
-indices = tp.encode(vocab)
+processed_vocab = tp.preprocessed(text)
+vocab = tp.create_vocabulary(processed_vocab)
+print("Vocabulary:")
 print(vocab)
+
+sample_text = "Hello World!"
+print("To encode: " + sample_text)
+indices = tp.encode(tp.preprocessed(sample_text))
 print("Encode")
 print(indices)
 print("Decode")
