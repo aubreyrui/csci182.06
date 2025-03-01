@@ -45,12 +45,13 @@ class TextProcessor:
                      features[i] += self.vocabulary.index(token)
 
             output_data.append(features)
+            print(features)
         output_csv = "output_tokens.csv"
         output_df = pd.DataFrame(output_data)
 
         try:
             output_df.to_csv(output_csv, index=False)
-            print(f"Token counts and encoded sentiments saved to '{output_csv}'")
+            print(f"Token and encoded sentiments saved to '{output_csv}'")
         except Exception as e:
             print(f"Error saving CSV: {e}")
 

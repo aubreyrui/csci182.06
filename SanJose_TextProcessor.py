@@ -24,7 +24,7 @@ class TextProcessor:
 
         return features
 
-    def decode(self, indices):
+    def decode(self, in00dices):
         tokens = []
         for i in indices:
                 tokens.append(self.vocabulary[int(i)])
@@ -66,11 +66,12 @@ print(vocab)
 
 sample_text = "Hello World!"
 print("To encode: " + sample_text)
-indices = tp.encode(tp.preprocessed(sample_text))
+prep = tp.preprocessed(sample_text)
+indices = tp.encode(prep)
 print("Encode")
 print(indices)
 print("Decode")
 print(tp.decode(indices))
-print(tp.get_embedding_features(vocab))
+print(tp.get_embedding_features(prep))
 
     
