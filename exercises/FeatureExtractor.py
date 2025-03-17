@@ -13,6 +13,7 @@ class TextProcessor:
     def preprocessed(self, text):
         preprocessed = text.lower()
         preprocessed = preprocessed.replace('.', ' .')
+        preprocessed = preprocessed.replace('.', ' .')
         preprocessed = preprocessed.replace('!', ' !')
         split_words = preprocessed.split()
 
